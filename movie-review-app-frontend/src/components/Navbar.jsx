@@ -39,7 +39,7 @@ const Navbar = () => {
             fontWeight: "bold", // Make the text bold
           }}
         >
-          Watch List
+          Reviews
         </Link>
       </div>
       <div>

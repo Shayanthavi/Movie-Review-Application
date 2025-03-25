@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import pic1 from "../assets/images/pic1.jpeg"; // Import your images
+import pic1 from "../assets/images/pic1.jpeg";
 import pic2 from "../assets/images/pic2.jpeg";
 import pic3 from "../assets/images/pic3.jpeg";
 import pic4 from "../assets/images/pic4.jpeg";
@@ -8,7 +8,6 @@ import pic4 from "../assets/images/pic4.jpeg";
 const WatchList = () => {
   const [reviews, setReviews] = useState([]);
 
-  // Map image names to their corresponding image files
   const imageMap = {
     pic1: pic1,
     pic2: pic2,
@@ -27,12 +26,10 @@ const WatchList = () => {
 
         const response = await axios.get("http://localhost:8080/api/reviews", {
           headers: {
-            Authorization: `Bearer ${token}`, // Include the token
+            Authorization: `Bearer ${token}`,
           },
         });
-        if (response.status === 200) {
-          setReviews(response.data);
-        }
+        setReviews(response.data);
       } catch (error) {
         console.error("Error fetching reviews:", error);
       }
@@ -45,18 +42,22 @@ const WatchList = () => {
     <div style={styles.container}>
       <h1 style={styles.title}>Watch List</h1>
       <div style={styles.reviewsContainer}>
-        {reviews.map((review, index) => (
-          <div key={index} style={styles.reviewCard}>
-            <img
-              src={imageMap[review.imageName]} // Use the imageMap to get the correct image
-              alt={review.imageName}
-              style={styles.image}
-            />
-            <div style={styles.reviewContent}>
-              <p style={styles.reviewText}>{review.reviewText}</p>
+        {reviews.length > 0 ? (
+          reviews.map((review, index) => (
+            <div key={index} style={styles.reviewCard}>
+              <img
+                src={imageMap[review.imageName]}
+                alt={review.imageName}
+                style={styles.image}
+              />
+              <div style={styles.reviewContent}>
+                <p style={styles.reviewText}>{review.reviewText}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p style={styles.noReviews}>No reviews found. Add some reviews first!</p>
+        )}
       </div>
     </div>
   );
@@ -67,10 +68,12 @@ const styles = {
     padding: "20px",
     maxWidth: "800px",
     margin: "0 auto",
+    backgroundColor: "#3B365D",
+    minHeight: "100vh",
+    color: "white",
   },
   title: {
     textAlign: "center",
-    color: "#3B365D",
     marginBottom: "20px",
   },
   reviewsContainer: {
@@ -81,7 +84,7 @@ const styles = {
   reviewCard: {
     display: "flex",
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "#5A4F7D",
     borderRadius: "10px",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     padding: "15px",
@@ -98,8 +101,11 @@ const styles = {
   },
   reviewText: {
     fontSize: "1rem",
-    color: "#333",
     margin: 0,
+  },
+  noReviews: {
+    textAlign: "center",
+    fontSize: "1.2rem",
   },
 };
 

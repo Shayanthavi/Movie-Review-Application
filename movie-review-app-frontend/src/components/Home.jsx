@@ -4,6 +4,7 @@ import pic1 from "../assets/images/pic1.jpeg";
 import pic2 from "../assets/images/pic2.jpeg";
 import pic3 from "../assets/images/pic3.jpeg";
 import pic4 from "../assets/images/pic4.jpeg";
+import bg from "../assets/images/bg.jpeg"; // Import your background image
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
@@ -24,7 +25,7 @@ const Home = () => {
 
   const handleReviewSubmit = async (review) => {
     const reviewData = {
-      imageName: images[currentImageIndex].name, // Ensure imageName is passed
+      imageName: images[currentImageIndex].name,
       reviewText: review,
     };
 
@@ -34,13 +35,17 @@ const Home = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Include the token
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(reviewData),
       });
+      
       if (!response.ok) {
         throw new Error("Failed to submit review");
       }
+      
+      const data = await response.json();
+      console.log("Review submitted:", data);
     } catch (error) {
       console.error("Error submitting review:", error);
     }
@@ -53,7 +58,14 @@ const Home = () => {
   };
 
   return (
-    <div style={styles.container}>
+    <div style={{
+      ...styles.container,
+      backgroundImage: `url(${bg})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      backgroundAttachment: 'fixed'
+    }}>
       <div style={styles.content}>
         <div style={styles.imageContainer}>
           <img
@@ -69,13 +81,10 @@ const Home = () => {
           <button onClick={() => setShowPopup(true)} style={styles.button}>
             Add Reviews
           </button>
-          <button onClick={goToWatchList} style={styles.button}>
-            Go to Watch List
-          </button>
+         
         </div>
         {showPopup && (
           <ReviewPopup
-            imageName={images[currentImageIndex].name} // Pass imageName to ReviewPopup
             onSubmit={handleReviewSubmit}
             onClose={() => setShowPopup(false)}
           />
@@ -91,12 +100,11 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
     minHeight: "100vh",
-    backgroundColor: "#3B365D",
     padding: "20px",
   },
   content: {
     textAlign: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "rgba(255, 255, 255, 0.9)", // Slightly transparent white
     borderRadius: "15px",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
     padding: "20px",
@@ -105,6 +113,7 @@ const styles = {
   },
   imageContainer: {
     marginBottom: "20px",
+    
   },
   image: {
     width: "500px",

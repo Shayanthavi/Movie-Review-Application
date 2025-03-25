@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { FaUser, FaLock } from "react-icons/fa"; // Import icons
+import { useNavigate, Link } from "react-router-dom"; // Added Link import
+import { FaUser, FaLock } from "react-icons/fa";
 import axios from "axios";
 
 const Register = () => {
@@ -26,11 +26,11 @@ const Register = () => {
           email,
         },
         {
-          withCredentials: true, // Include credentials
+          withCredentials: true,
         }
       );
       console.log("Registration successful:", response.data);
-      navigate("/login"); // Redirect to login page after successful registration
+      navigate("/login");
     } catch (error) {
       setError("Registration failed. Please try again.");
       console.error("Registration error:", error);

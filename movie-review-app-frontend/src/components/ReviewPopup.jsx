@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 
-const ReviewPopup = ({ imageName, onSubmit, onClose }) => {
+const ReviewPopup = ({ onSubmit, onClose }) => {
   const [review, setReview] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (review.trim()) {
       onSubmit(review);
+      setReview("");
     }
   };
 
@@ -13,24 +15,32 @@ const ReviewPopup = ({ imageName, onSubmit, onClose }) => {
     <div style={styles.overlay}>
       <div style={styles.popup}>
         <h3 style={styles.popupTitle}>Write Your Review</h3>
-        <textarea
-          value={review}
-          onChange={(e) => setReview(e.target.value)}
-          style={styles.textarea}
-          placeholder="Type your review here..."
-        />
-        <div style={styles.popupButtons}>
-          <button onClick={handleSubmit} style={styles.popupButton}>
-            Submit
-          </button>
-          <button onClick={onClose} style={styles.popupButtonCancel}>
-            Close
-          </button>
-        </div>
+        <form onSubmit={handleSubmit}>
+          <textarea
+            value={review}
+            onChange={(e) => setReview(e.target.value)}
+            style={styles.textarea}
+            placeholder="Type your review here..."
+            required
+          />
+          <div style={styles.popupButtons}>
+            <button type="submit" style={styles.popupButton}>
+              Submit
+            </button>
+            <button
+              type="button"
+              onClick={onClose}
+              style={styles.popupButtonCancel}
+            >
+              Close
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
 };
+
 
 const styles = {
   overlay: {
@@ -62,7 +72,7 @@ const styles = {
   textarea: {
     width: "100%",
     height: "150px",
-    padding: "10px",
+    padding: "4px",
     borderRadius: "10px",
     border: "1px solid #ccc",
     fontSize: "1rem",
