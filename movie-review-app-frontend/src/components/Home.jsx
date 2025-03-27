@@ -4,7 +4,6 @@ import pic1 from "../assets/images/pic1.jpeg";
 import pic2 from "../assets/images/pic2.jpeg";
 import pic3 from "../assets/images/pic3.jpeg";
 import pic4 from "../assets/images/pic4.jpeg";
-import bg from "../assets/images/bg.jpeg"; // Import your background image
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
@@ -58,15 +57,11 @@ const Home = () => {
   };
 
   return (
-    <div style={{
-      ...styles.container,
-      backgroundImage: `url(${bg})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      backgroundAttachment: 'fixed'
-    }}>
-      <div style={styles.content}>
+    <div style={styles.container}>
+      <div style={styles.glassCard}>
+        <h2 style={styles.title}>Movie Review App</h2>
+        <p style={styles.subtitle}>Browse and review your favorite movies</p>
+        
         <div style={styles.imageContainer}>
           <img
             src={images[currentImageIndex].src}
@@ -74,15 +69,21 @@ const Home = () => {
             style={styles.image}
           />
         </div>
+        
         <div style={styles.buttonContainer}>
           <button onClick={handleNextImage} style={styles.button}>
             Next Image
           </button>
-          <button onClick={() => setShowPopup(true)} style={styles.button}>
-            Add Reviews
+          <button 
+            onClick={() => setShowPopup(true)} 
+            style={styles.button}
+          >
+            Add Review
           </button>
-         
+          
+           
         </div>
+        
         {showPopup && (
           <ReviewPopup
             onSubmit={handleReviewSubmit}
@@ -96,49 +97,72 @@ const Home = () => {
 
 const styles = {
   container: {
+    width: "100vw",
+    height: "100vh",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    minHeight: "100vh",
-    padding: "20px",
+    background: "linear-gradient(135deg, #6e48aa 0%, #9d50bb 100%)",
+    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
   },
-  content: {
-    textAlign: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.9)", // Slightly transparent white
-    borderRadius: "15px",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-    padding: "20px",
+  glassCard: {
+    backgroundColor: "rgba(255, 255, 255, 0.15)",
+    backdropFilter: "blur(10px)",
+    WebkitBackdropFilter: "blur(10px)",
+    padding: "40px",
+    borderRadius: "20px",
+    boxShadow: "0 8px 32px rgba(31, 38, 135, 0.37)",
+    border: "1px solid rgba(255, 255, 255, 0.18)",
+    width: "90%",
     maxWidth: "800px",
-    width: "100%",
+    textAlign: "center",
+    color: "white",
+    animation: "fadeIn 0.5s ease-out",
+  },
+  title: {
+    fontSize: "28px",
+    fontWeight: "600",
+    marginBottom: "10px",
+  },
+  subtitle: {
+    fontSize: "14px",
+    opacity: 0.8,
+    marginBottom: "30px",
   },
   imageContainer: {
-    marginBottom: "20px",
-    
+    marginBottom: "25px",
+    display: "flex",
+    justifyContent: "center",
   },
   image: {
-    width: "500px",
+    width: "100%",
+    maxWidth: "500px",
     height: "300px",
     objectFit: "cover",
     borderRadius: "10px",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+    boxShadow: "0 4px 15px rgba(0, 0, 0, 0.2)",
+    border: "1px solid rgba(255, 255, 255, 0.2)",
   },
   buttonContainer: {
     display: "flex",
     justifyContent: "center",
-    gap: "10px",
+    gap: "15px",
     flexWrap: "wrap",
   },
   button: {
-    padding: "10px 20px",
-    backgroundColor: "#3B365D",
-    color: "#fff",
-    border: "none",
+    padding: "12px 25px",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    color: "white",
+    border: "1px solid rgba(255, 255, 255, 0.3)",
     borderRadius: "25px",
     fontSize: "1rem",
+    fontWeight: "500",
     cursor: "pointer",
-    transition: "background-color 0.3s ease",
+    transition: "all 0.3s ease",
+    minWidth: "150px",
     ":hover": {
-      backgroundColor: "#5A4F7D",
+      backgroundColor: "rgba(255, 255, 255, 0.3)",
+      transform: "translateY(-2px)",
     },
   },
 };
